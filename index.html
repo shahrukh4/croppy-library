@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./src/css/croppie.css">
+        <link rel="stylesheet" href="./src/css/custom.css">
+    </head>
+    <body>
+        <h1>SHaksfkskfjksjfksjfksjik</h1>
+
+        <div>
+            <form>
+                <input 
+                    type="file" 
+                    name="image" 
+                    id="image"
+                    onchange="filePreview(this, 'image_preview', 'image');"
+                >
+            </form>
+        </div>
+
+        <div id="image_preview">
+            <img src="">
+        </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="popup-wrap crop-popup-wrap">
+            <form class="signup-form crop-image-modal">
+                <!-- Modal content -->
+                <div class="modal-content sign-body">
+                    <span class="close">&times;</span>
+                    <div class="sign-head">
+                        <h2 class="text-gradient">Crop Image</h2>
+                    </div>
+                    <div class="sign-body">
+                        <div class="signup-wrapper">
+                            <div>
+                                <div id="image_demo" style="margin-top:30px"></div>                                            
+                                <div class="crop-btn-wrap">
+                                    <button type="button" class="ok-btn confirm-refill crop_image">Crop</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script src="./src/js/croppie.min.js"></script>
+        <script src="./src/crop.js"></script>
+    </body>
+</html>

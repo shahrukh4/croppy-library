@@ -1,0 +1,22 @@
+{
+  "name": "crop-lib",
+  "version": "1.0.0",
+  "description": "To apply a croppie",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/shahrukh4/croppie-library.git"
+  },
+  "keywords": [
+    "croppie"
+  ],
+  "author": "Shahrukh Anwar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shahrukh4/croppie-library/issues"
+  },
+  "homepage": "https://github.com/shahrukh4/croppie-library#readme"
+}
