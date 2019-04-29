@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="./src/css/custom.css">
     </head>
     <body>
-        <h1>SHaksfkskfjksjfksjfksjik</h1>
+        <h1>Hello World</h1>
 
         <div>
             <form>
@@ -12,7 +12,7 @@
                     type="file" 
                     name="image" 
                     id="image"
-                    onchange="filePreview(this, 'image_preview', 'image');"
+                    onchange="cropImage(this, 'image_preview', 'image');"
                 >
             </form>
         </div>
@@ -35,7 +35,7 @@
                             <div>
                                 <div id="image_demo" style="margin-top:30px"></div>                                            
                                 <div class="crop-btn-wrap">
-                                    <button type="button" class="ok-btn confirm-refill crop_image">Crop</button>    
+                                    <button type="button" class="ok-btn confirm-refill crop_image" id="crop_image">Crop</button>    
                                 </div>
                             </div>
                         </div>
@@ -49,3 +49,21 @@
         <script src="./src/crop.js"></script>
     </body>
 </html>
+
+<script>
+    
+    cropImage = (input, preview_id, image_id) => {        
+        var crop = new ImageCrop({
+            input: input,           //required
+            crop : true,            //Optional (Default: false)
+            showPreview: true,       //Optional (Default: false)
+            imagePreview : '#image_demo'
+        });
+
+        crop.initCrop({
+            getSourceBlob : function(blob) {
+                console.log('blob', blob);
+            }
+        })
+    }
+</script>
