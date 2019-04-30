@@ -29,30 +29,7 @@
             <img src="">
         </div>
 
-        <!-- The Modal -->
-        <div id="myModal" class="popup-wrap crop-popup-wrap">
-            <form class="signup-form crop-image-modal">
-                <!-- Modal content -->
-                <div class="modal-content sign-body">
-                    <span class="close">&times;</span>
-                    <div class="sign-head">
-                        <h2 class="text-gradient">Crop Image</h2>
-                    </div>
-                    <div class="sign-body">
-                        <div class="signup-wrapper">
-                            <div>
-                                <div id="image_demo" style="margin-top:30px"></div>                                            
-                                <div class="crop-btn-wrap">
-                                    <button type="button" class="ok-btn confirm-refill crop_image" id="crop_image">Crop</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> -->
         <script src="./src/js/croppie.min.js"></script>
         <script src="./src/crop.js"></script>
     </body>
@@ -61,26 +38,23 @@
 <script>    
     cropImage = (input, preview_id, image_id) => {        
         var crop = new ImageCrop({
-            input: input,           //required
-            crop : true,            //Optional (Default: false)
-            showPreview: true,       //Optional (Default: false)
-            imagePreview : '#image_preview', //Optional (This is id/class of div must contain img tag)
+            input: input,                    //Required
+            crop : true,                     //Optional (Default: false)
+            showPreview: true,               //Optional (Default: false)
+            imagePreview : '#image_preview', //Required if want to show image (This is id/class of div must contain img tag)
             viewport : {
-                width  : 200,   
-                height : 200,
-                type   :'circle'
+                width  : 200,                //Optional (Default: 200)
+                height : 200,                //Optional (Default: 200)
+                type   :'circle'             //Optional (Default: square) (Options: circle, square)
             },
             boundary : {
-                width  : 250,
-                height : 250
+                width  : 250,                //Optional (Default: 250)
+                height : 250                 //Optional (Default: 250)
             },
-            validTypes : 'png',
+            validTypes : 'png',              //Optional (Default: jpg, jpeg, png) (Options: jpg, jpeg, png)
+            croppedType  : 'base64',         //Optional (Default: base64) (base64, html, blob, rawcanvas)
         });
 
-        crop.initCrop({
-            getSourceBlob : function(blob) {
-                console.log('blob', blob);
-            }
-        })
+        crop.initCrop();
     }
 </script>

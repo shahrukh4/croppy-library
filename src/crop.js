@@ -7,13 +7,14 @@ var ImageCrop = (function ImageCrop() {
         viewport : {
             width  : 200,   
             height : 200,
-            type   :'circle'
+            type   :'square'
         },
         boundary : {
             width  : 250,
             height : 250
         },
         imagePreview : '',
+        croppedType  : 'base64',
         blobSource   : 'xggdgdg',
         validTypes   : 'jpg|jpeg|png',
         cropModal    : `
@@ -48,6 +49,9 @@ var ImageCrop = (function ImageCrop() {
         var _this = this; // Cache the `this` keyword
 
         _privateObject = Object.assign(_privateObject, obj);
+
+        //Adding modal div in body
+        document.body.innerHTML += _privateObject.cropModal;
 
         _this.initCrop = function(){
             let selector = document.getElementById('image_demo');
@@ -96,16 +100,11 @@ var ImageCrop = (function ImageCrop() {
                     $image_crop.bind({
                         url: event.target.result
                     });
-
-                    $('.crop-popup-wrap').show();
-                    $('#crop-image-modal').addClass('pop-show');
-                    $('body').addClass('fixed');
                 }
             }
 
-            reader.readAsDataURL(obj.input.files[0]);
-
-            $('#myModal').show();
+            reader.readAsDataURL(obj.input.files[0]);            
+            document.getElementById('myModal').style.display = 'block';
         };
 
         _this.getSourceBlob = function () {
@@ -124,10 +123,35 @@ var ImageCrop = (function ImageCrop() {
         document.getElementById('crop_image').addEventListener('click', function(){
             let modal = document.getElementById('myModal');
 
-            $image_crop.result('base64')
-            .then(function(base64) {
-                $(`${_privateObject.imagePreview} img`).attr('src', base64);
-                
+            $image_crop.result(croppedType = _privateObject.croppedType)
+            .then(function(croppedType) {
+                switch(_privateObject.croppedType){
+                    case 'base64' :
+
+                    document.querySelector(`${_privateObject.imagePreview} img`).src = croppedType;
+                    break;
+
+                    case 'html' :
+
+                    document.getElementById((`${_privateObject.imagePreview}`).replace('#', '')).innerHTML = '';
+                    document.getElementById((`${_privateObject.imagePreview}`).replace('#', '')).appendChild(croppedType);
+                    break;
+
+                    case 'blob' :
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(croppedType)
+                    reader.onload = function(e) {
+                        var img = new Image();
+                        img.onload = function() {
+                           context.drawImage(img, 100,100)
+                        }
+                        document.querySelector(`${_privateObject.imagePreview} img`).src = e.target.result;
+                    }
+
+                    break;
+                }
+
                 modal.style.display = 'none';
             });
 
