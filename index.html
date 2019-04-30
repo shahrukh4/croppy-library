@@ -21,6 +21,14 @@
             <img src="">
         </div>
 
+        <div class="image_preview">
+            <img src="">
+        </div>
+
+        <div class="image_preview">
+            <img src="">
+        </div>
+
         <!-- The Modal -->
         <div id="myModal" class="popup-wrap crop-popup-wrap">
             <form class="signup-form crop-image-modal">
@@ -50,14 +58,23 @@
     </body>
 </html>
 
-<script>
-    
+<script>    
     cropImage = (input, preview_id, image_id) => {        
         var crop = new ImageCrop({
             input: input,           //required
             crop : true,            //Optional (Default: false)
             showPreview: true,       //Optional (Default: false)
-            imagePreview : '#image_demo'
+            imagePreview : '#image_preview', //Optional (This is id/class of div must contain img tag)
+            viewport : {
+                width  : 200,   
+                height : 200,
+                type   :'circle'
+            },
+            boundary : {
+                width  : 250,
+                height : 250
+            },
+            validTypes : 'png',
         });
 
         crop.initCrop({

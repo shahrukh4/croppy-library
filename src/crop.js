@@ -1,79 +1,11 @@
-/*$(document).ready(function(){
-    $image_crop = $('#image_demo').croppie({
-        enableExif: true,
-        viewport: {
-            width:180,
-            height:180,
-            type:'square'
-        },
-        boundary:{
-            width: 250,
-            height: 250
-        }
-    });
-});*/
-
-/*$('.crop_image').click(function(event){
-    $image_crop.croppie('result', {
-        type: 'canvas',
-        size: 'viewport'
-    })
-    .then(function(response){
-        $('#image_preview img').attr('src', response);
-
-        $('.crop-popup-wrap').hide();
-        $('#crop-image-modal').removeClass('pop-show');
-        $('body').removeClass('fixed');
-    });
-});*/
-
-function filePreview(input, img, filename) {
-    var reader = new FileReader();
-    reader.onload = function (event) {
-        result = event.target.result;
-        arrTarget = result.split(';');
-        tipo = arrTarget[0];
-
-        if (tipo != 'data:image/jpeg' && tipo != 'data:image/png' && tipo != 'data:image/jpg') {
-            alert('only .jpg, .png and .jpeg image types allowed');
-        }
-
-        else{
-            $image_crop.croppie('bind', {
-                url: event.target.result
-            })
-            .then(function(){
-                console.log('jQuery bind complete');
-            });
-
-            $('.crop-popup-wrap').show();
-            $('#crop-image-modal').addClass('pop-show');
-            $('body').addClass('fixed');
-        }
-    }
-
-    reader.readAsDataURL(input.files[0]);
-    image_src = img;
-
-    var infoArea = document.getElementById( filename );
-    var fileName = input.files[0].name;
-    infoArea.textContent = fileName;
-
-    $('#myModal').show();
-}
-
-$('.close').click(function(){
-    $('#myModal').hide();
-});
-
-
-var ImageCrop = (function ImageCrop(obj) {
+var ImageCrop = (function ImageCrop() {
     var _privateObject = {
-        /*crop : true,     
+        input: '',
+        crop : true,     
         enableExif: true,
         showPreview : true,
         viewport : {
-            width  : 200,
+            width  : 200,   
             height : 200,
             type   :'circle'
         },
@@ -82,37 +14,71 @@ var ImageCrop = (function ImageCrop(obj) {
             height : 250
         },
         imagePreview : '',
-        blobSource   : "xggdgdg",*/
-        ...obj
+        blobSource   : 'xggdgdg',
+        validTypes   : 'jpg|jpeg|png',
+        cropModal    : `
+            <!-- The Modal -->
+            <div id="myModal" class="popup-wrap crop-popup-wrap">
+                <form class="signup-form crop-image-modal">
+                    <!-- Modal content -->
+                    <div class="modal-content sign-body">
+                        <span class="close">&times;</span>
+                        <div class="sign-head">
+                            <h2 class="text-gradient">Crop Image</h2>
+                        </div>
+                        <div class="sign-body">
+                            <div class="signup-wrapper">
+                                <div>
+                                    <div id="image_demo" style="margin-top:30px"></div>                                            
+                                    <div class="crop-btn-wrap">
+                                        <button type="button" class="ok-btn confirm-refill crop_image" id="crop_image">Crop</button>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        `,
     },
-    _sharedObject = {},
     $image_crop   = '';
-
-    console.log('private object', _privateObject);
 
     // Return the constructor
     return function MyLibConstructor(obj) {
         var _this = this; // Cache the `this` keyword
 
+        _privateObject = Object.assign(_privateObject, obj);
+
         _this.initCrop = function(){
-            //If id of image preview is given
-            if(obj.imagePreview.includes('#')){
-                let selector = document.getElementById('image_demo');
+            let selector = document.getElementById('image_demo');
 
-                $image_crop = new Croppie(selector, {
-                    viewport: { width: 200, height: 200 },
-                    boundary: { width: 300, height: 300 },
-                    showZoomer: false,
-                    enableOrientation: true
-                });
+            //Checking validations
+            if(_this.checkValidations()){
+                $image_crop = new Croppie(selector, _privateObject);
+
+                _this.showCropModal(obj);       
+            }
+        }
+
+        /**
+         * Validations for uploaded file satisfy the given filetype conditions
+         * @return boolean
+         */
+        _this.checkValidations = function(){
+            let invalid    = 0;
+            validTypes   = _privateObject.validTypes.split('|'),
+            uploadedFileType = _privateObject.input.files[0].type;
+
+            //Checking if uploaded file is valid
+            for (var i = 0; i < validTypes.length; i++) {
+                if(uploadedFileType !== `image/${validTypes[i]}`){
+                    alert(`You uploaded an invalid file type`);
+
+                    ++invalid;
+                }
             }
 
-            //If class of image preview is given
-            if(obj.imagePreview.includes('.')){
-                $image_crop = obj.imagePreview.croppie(_privateObject);
-            }
-
-            _this.showCropModal(obj);       
+            return invalid ? false : true;
         }
 
         _this.showCropModal = function (cropObj) {           
@@ -142,10 +108,6 @@ var ImageCrop = (function ImageCrop(obj) {
             $('#myModal').show();
         };
 
-        _this.someOtherMethod = function () {
-            // Some other functionality
-        };
-
         _this.getSourceBlob = function () {
             return _privateObject;
         };
@@ -154,15 +116,36 @@ var ImageCrop = (function ImageCrop(obj) {
             return _privateObject.obj;
         }
 
+        _this.getSourceBlob = function (value, index, array) {
+            return value;
+        };
+
+        //When user clicked on crop
         document.getElementById('crop_image').addEventListener('click', function(){
+            let modal = document.getElementById('myModal');
+
             $image_crop.result('base64')
             .then(function(base64) {
-                $('#image_preview img').attr('src', base64);
-
-                $('.crop-popup-wrap').hide();
-                $('#crop-image-modal').removeClass('pop-show');
-                $('body').removeClass('fixed');
+                $(`${_privateObject.imagePreview} img`).attr('src', base64);
+                
+                modal.style.display = 'none';
             });
+
+            $image_crop.destroy();
         });
+
+        let i = 0,
+        closeModal = document.getElementsByClassName('close');
+
+        //Close the modal on click
+        while(i < closeModal.length){
+            closeModal[i].addEventListener('click', function(){
+                $image_crop.destroy();
+
+                document.getElementById('myModal').style.display = 'none';
+            });
+
+            ++i;
+        }
     };
 }());
