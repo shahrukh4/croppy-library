@@ -39,7 +39,7 @@
     cropImage = (input, preview_id, image_id) => {        
         var crop = new ImageCrop({
             input: input,                    //Required
-            crop : true,                     //Optional (Default: false)
+            crop : true,                     //Optional (Default: true)
             showPreview: true,               //Optional (Default: false)
             imagePreview : '.image_preview', //Required if want to show image (This is id/class of div must contain img tag)
             viewport : {
@@ -51,7 +51,7 @@
                 width  : 250,                //Optional (Default: 250)
                 height : 250                 //Optional (Default: 250)
             },
-            validTypes : 'png',              //Optional (Default: jpg, jpeg, png) (Options: jpg|jpeg|png)
+            validTypes : 'jpg|jpeg|png',     //Optional (Default: jpg, jpeg, png) (Options: jpg|jpeg|png)
             croppedType  : 'base64',         //Optional (Default: base64) (base64, html, blob, rawcanvas)
             showZoomer  : true,              //Optional (Default: true)
             imageResult  : {

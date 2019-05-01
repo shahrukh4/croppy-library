@@ -1,66 +1,25 @@
+/**
+ * A library for cropping images
+ * Version- 1.0
+ * Date- 01/06/19
+ * Written by- Shahrukh Anwar
+ */
 var ImageCrop = (function ImageCrop() {
-    var _privateObject = {
-        input: '',
-        crop : true,     
-        enableExif: true,
-        showPreview : false,
-        showZoomer  : true,
-        viewport : {
-            width  : 200,   
-            height : 200,
-            type   :'square'
-        },
-        boundary : {
-            width  : 250,
-            height : 250
-        },
-        imageResult  : {
-            type    : 'base64',  //base64, html, blob, rawCanvas (base64)
-            size    : 'viewport', //original, viewport (viewport)
-            format  : 'png',  //'jpeg'|'png'|'webp' (png)
-            quality : 1,       //0, 1 (1)
-            circle  : null,   //true, false (false)
-        },
-        imagePreview : '',
-        blobSource   : 'xggdgdg',
-        validTypes   : 'jpg|jpeg|png',
-        cropData     : '',
-        cropModal    : `
-            <!-- The Modal -->
-            <div id="myModal" class="popup-wrap crop-popup-wrap">
-                <form class="signup-form crop-image-modal">
-                    <!-- Modal content -->
-                    <div class="modal-content sign-body">
-                        <span class="close">&times;</span>
-                        <div class="sign-head">
-                            <h2 class="text-gradient">Crop Image</h2>
-                        </div>
-                        <div class="sign-body">
-                            <div class="signup-wrapper">
-                                <div>
-                                    <div id="image_demo" style="margin-top:30px"></div>                                            
-                                    <div class="crop-btn-wrap">
-                                        <button type="button" class="ok-btn confirm-refill crop_image" id="crop_image">Crop</button>    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        `,
-    },
-    $image_crop   = '';
-
-    // Return the constructor
+    /**
+     * Return the constructor for library
+     * object
+     */
     return function MyLibConstructor(obj) {
-        var _this = this; // Cache the `this` keyword
+        var _this = this;
 
         _privateObject = Object.assign(_privateObject, obj);
 
         //Adding modal div in body
         document.body.innerHTML += _privateObject.cropModal;
 
+        /**
+         * Initialising crop object
+         */
         _this.initCrop = function(){
             let selector = document.getElementById('image_demo');
 
@@ -68,7 +27,7 @@ var ImageCrop = (function ImageCrop() {
             if(_this.checkValidations()){
                 $image_crop = new Croppie(selector, _privateObject);
 
-                _this.showCropModal(obj);       
+                _this.showCropModal();       
             }
         }
 
@@ -82,52 +41,41 @@ var ImageCrop = (function ImageCrop() {
             uploadedFileType = _privateObject.input.files[0].type;
 
             //Checking if uploaded file is valid
-            for (var i = 0; i < validTypes.length; i++) {
-                if(uploadedFileType !== `image/${validTypes[i]}`){
-                    alert(`You uploaded an invalid file`);
+            if(!validTypes.includes(uploadedFileType.replace('image/', ''))){
+                alert(`You uploaded an invalid file`);
 
-                    ++invalid;
-                }
+                ++invalid;
             }
 
             return invalid ? false : true;
         }
 
-        _this.showCropModal = function (cropObj) {           
+        /**
+         * Show the crop modal
+         */
+        _this.showCropModal = function () {           
             var reader = new FileReader();
             reader.onload = function (event) {
-                result = event.target.result;
-                arrTarget = result.split(';');
-                tipo = arrTarget[0];
-
-                if (tipo != 'data:image/jpeg' && tipo != 'data:image/png' && tipo != 'data:image/jpg') {
-                    alert('only .jpg, .png and .jpeg image types allowed');
-                }
-
-                else{
-                    $image_crop.bind({
-                        url: event.target.result
-                    });
-                }
+                $image_crop.bind({
+                    url: event.target.result
+                });
             }
 
             reader.readAsDataURL(obj.input.files[0]);            
             document.getElementById('myModal').style.display = 'block';
         };
 
+        /**
+         * Get the source of image after cropping
+         * @return string
+         */
         _this.getSourceBlob = function () {
             return _privateObject;
         };
 
-        _this.object = () => {
-            return _privateObject.obj;
-        }
-
-        _this.getSourceBlob = function (value, index, array) {
-            return value;
-        };
-
-        //When user clicked on crop
+        /**
+         * When user clicked on crop
+         */
         document.getElementById('crop_image').addEventListener('click', function(){
             let modal = document.getElementById('myModal');
 
@@ -212,12 +160,14 @@ var ImageCrop = (function ImageCrop() {
             });
 
             $image_crop.destroy();
-        });
+        }); //end click
 
         let i = 0,
         closeModal = document.getElementsByClassName('close');
 
-        //Close the modal on click
+        /**
+         * Close the modal on click
+         */
         while(i < closeModal.length){
             closeModal[i].addEventListener('click', function(){
                 $image_crop.destroy();
@@ -226,6 +176,61 @@ var ImageCrop = (function ImageCrop() {
             });
 
             ++i;
-        }
-    };
-}());
+        } //end while
+    }; //end constructor
+}()); //end function
+
+/**
+ * Initialising default object
+ * @type Object
+ */
+var _privateObject = {
+    input: '',
+    crop : true,     
+    enableExif: true,
+    showPreview : false,
+    showZoomer  : true,
+    viewport : {
+        width  : 200,   
+        height : 200,
+        type   :'square'
+    },
+    boundary : {
+        width  : 250,
+        height : 250
+    },
+    imageResult  : {
+        type    : 'base64',     //base64, html, blob, rawCanvas (base64)
+        size    : 'viewport',   //original, viewport (viewport)
+        format  : 'png',        //'jpeg'|'png'|'webp' (png)
+        quality : 1,            //0, 1 (1)
+        circle  : null,         //true, false (false)
+    },
+    imagePreview : '',
+    validTypes   : 'jpg|jpeg|png',
+    cropData     : '',
+    cropModal    : `
+        <!-- The Modal -->
+        <div id="myModal" class="popup-wrap crop-popup-wrap">
+            <form class="signup-form crop-image-modal">
+                <!-- Modal content -->
+                <div class="modal-content sign-body">
+                    <span class="close">&times;</span>
+                    <div class="sign-head">
+                        <h2 class="text-gradient">Crop Image</h2>
+                    </div>
+                    <div class="sign-body">
+                        <div class="signup-wrapper">
+                            <div>
+                                <div id="image_demo" style="margin-top:30px"></div>                                            
+                                <div class="crop-btn-wrap">
+                                    <button type="button" class="ok-btn confirm-refill crop_image" id="crop_image">Crop</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    `,
+};
