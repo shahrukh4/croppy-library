@@ -17,15 +17,15 @@
             </form>
         </div>
 
+        <div class="image_preview">
+            <img src="">
+        </div>
+
+        <div class="image_preview">
+            <img src="">
+        </div>
+
         <div id="image_preview">
-            <img src="">
-        </div>
-
-        <div class="image_preview">
-            <img src="">
-        </div>
-
-        <div class="image_preview">
             <img src="">
         </div>
 
@@ -41,7 +41,7 @@
             input: input,                    //Required
             crop : true,                     //Optional (Default: false)
             showPreview: true,               //Optional (Default: false)
-            imagePreview : '#image_preview', //Required if want to show image (This is id/class of div must contain img tag)
+            imagePreview : '.image_preview', //Required if want to show image (This is id/class of div must contain img tag)
             viewport : {
                 width  : 200,                //Optional (Default: 200)
                 height : 200,                //Optional (Default: 200)
@@ -51,8 +51,16 @@
                 width  : 250,                //Optional (Default: 250)
                 height : 250                 //Optional (Default: 250)
             },
-            validTypes : 'png',              //Optional (Default: jpg, jpeg, png) (Options: jpg, jpeg, png)
+            validTypes : 'png',              //Optional (Default: jpg, jpeg, png) (Options: jpg|jpeg|png)
             croppedType  : 'base64',         //Optional (Default: base64) (base64, html, blob, rawcanvas)
+            showZoomer  : true,              //Optional (Default: true)
+            imageResult  : {
+                type    : 'base64',          //Optional base64, html, blob, rawCanvas (base64)
+                size    : 'viewport',        //Optional original, viewport (viewport)
+                format  : 'png',             //Optional 'jpeg'|'png'|'webp' (png)
+                quality : 1,                 //Optional 0, 1 (1)
+                circle  : null,              //Optional true, false (null)
+            },
         });
 
         crop.initCrop();

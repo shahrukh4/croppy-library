@@ -3,7 +3,8 @@ var ImageCrop = (function ImageCrop() {
         input: '',
         crop : true,     
         enableExif: true,
-        showPreview : true,
+        showPreview : false,
+        showZoomer  : true,
         viewport : {
             width  : 200,   
             height : 200,
@@ -13,10 +14,17 @@ var ImageCrop = (function ImageCrop() {
             width  : 250,
             height : 250
         },
+        imageResult  : {
+            type    : 'base64',  //base64, html, blob, rawCanvas (base64)
+            size    : 'viewport', //original, viewport (viewport)
+            format  : 'png',  //'jpeg'|'png'|'webp' (png)
+            quality : 1,       //0, 1 (1)
+            circle  : null,   //true, false (false)
+        },
         imagePreview : '',
-        croppedType  : 'base64',
         blobSource   : 'xggdgdg',
         validTypes   : 'jpg|jpeg|png',
+        cropData     : '',
         cropModal    : `
             <!-- The Modal -->
             <div id="myModal" class="popup-wrap crop-popup-wrap">
@@ -76,7 +84,7 @@ var ImageCrop = (function ImageCrop() {
             //Checking if uploaded file is valid
             for (var i = 0; i < validTypes.length; i++) {
                 if(uploadedFileType !== `image/${validTypes[i]}`){
-                    alert(`You uploaded an invalid file type`);
+                    alert(`You uploaded an invalid file`);
 
                     ++invalid;
                 }
@@ -123,34 +131,82 @@ var ImageCrop = (function ImageCrop() {
         document.getElementById('crop_image').addEventListener('click', function(){
             let modal = document.getElementById('myModal');
 
-            $image_crop.result(croppedType = _privateObject.croppedType)
-            .then(function(croppedType) {
-                switch(_privateObject.croppedType){
-                    case 'base64' :
+            $image_crop.result(_privateObject.imageResult)
+            .then(function(croppedImage) {
+                //console.log(croppedImage);
+                if(_privateObject.showPreview){
+                    switch(_privateObject.imageResult.type){
+                        //If base64 given
+                        case 'base64' :
 
-                    document.querySelector(`${_privateObject.imagePreview} img`).src = croppedType;
-                    break;
+                        let i = 0,
+                        elem = document.querySelectorAll(`${_privateObject.imagePreview} img`);
 
-                    case 'html' :
+                        //Preview image on all elements
+                        while(i < elem.length){
+                            elem[i].src = croppedImage;
 
-                    document.getElementById((`${_privateObject.imagePreview}`).replace('#', '')).innerHTML = '';
-                    document.getElementById((`${_privateObject.imagePreview}`).replace('#', '')).appendChild(croppedType);
-                    break;
-
-                    case 'blob' :
-
-                    var reader = new FileReader();
-                    reader.readAsDataURL(croppedType)
-                    reader.onload = function(e) {
-                        var img = new Image();
-                        img.onload = function() {
-                           context.drawImage(img, 100,100)
+                            ++i;
                         }
-                        document.querySelector(`${_privateObject.imagePreview} img`).src = e.target.result;
-                    }
 
-                    break;
-                }
+                        _privateObject.cropData = croppedImage;                    
+                        break;
+
+                        //If html given
+                        case 'html' :
+
+                        //If class given for preview
+                        if(_privateObject.imagePreview.includes('.')){
+                            let i =0,
+                            elem = document.getElementsByClassName((`${_privateObject.imagePreview}`).replace('.', ''));
+
+                            //Preview image on all elements
+                            while(i < elem.length){
+                                elem[i].innerHTML = '',
+                                elem[i].appendChild(croppedImage);
+
+                                ++i;
+                            }
+
+                            _privateObject.cropData = croppedImage;
+                            break;
+                        }
+
+
+                        let elm = document.getElementById((`${_privateObject.imagePreview}`).replace('#', ''));
+
+                        elm.innerHTML = '';
+                        elm.appendChild(croppedImage);
+
+                        _privateObject.cropData = croppedImage;
+                        break;
+
+                        //If blob given
+                        case 'blob' :
+
+                        var reader = new FileReader();
+                        reader.readAsDataURL(croppedImage)
+                        reader.onload = function(e) {
+                            var img = new Image();
+                            img.onload = function() {
+                               context.drawImage(img, 100,100)
+                            }
+
+                            let i = 0,
+                            elem = document.querySelectorAll(`${_privateObject.imagePreview} img`);
+
+                            //Close the modal on click
+                            while(i < elem.length){
+                                elem[i].src = e.target.result;
+
+                                ++i;
+                            }
+                        }
+
+                        _privateObject.cropData = croppedImage;
+                        break;
+                    } //end switch
+                }//end if
 
                 modal.style.display = 'none';
             });
