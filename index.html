@@ -1,68 +1,135 @@
-<html>
+<!doctype html>
+<html lang="en">
     <head>
-        <link rel="stylesheet" href="./src/css/croppie.css">
-        <link rel="stylesheet" href="./src/css/custom.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+
+        <title>Crop Image example for Bootstrap</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
+        <link rel="stylesheet" href="./src/css/crop.css">
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style type="text/css">
+            html,
+            body {
+              height: 100%;
+            }
+
+            body {
+              display: -ms-flexbox;
+              display: -webkit-box;
+              display: flex;
+              -ms-flex-align: center;
+              -ms-flex-pack: center;
+              -webkit-box-align: center;
+              align-items: center;
+              -webkit-box-pack: center;
+              justify-content: center;
+              padding-top: 40px;
+              padding-bottom: 40px;
+              background-color: #f5f5f5;
+            }
+
+            .form-signin {
+              width: 100%;
+              max-width: 330px;
+              padding: 15px;
+              margin: 0 auto;
+            }
+            .form-signin .checkbox {
+              font-weight: 400;
+            }
+            .form-signin .form-control {
+              position: relative;
+              box-sizing: border-box;
+              height: auto;
+              padding: 10px;
+              font-size: 16px;
+            }
+            .form-signin .form-control:focus {
+              z-index: 2;
+            }
+            .form-signin input[type="email"] {
+              margin-bottom: -1px;
+              border-bottom-right-radius: 0;
+              border-bottom-left-radius: 0;
+            }
+            .form-signin input[type="password"] {
+              margin-bottom: 10px;
+              border-top-left-radius: 0;
+              border-top-right-radius: 0;
+            }
+        </style>
+
+        <script src="./src/js/crop.min.js"></script>
     </head>
-    <body>
-        <h1>Hello World</h1>
 
-        <div>
-            <form>
-                <input 
-                    type="file" 
-                    name="image" 
-                    id="image"
-                    onchange="cropImage(this, 'image_preview', 'image');"
-                >
-            </form>
-        </div>
+    <body class="text-center">
+        <form class="form-signin">
+            <div id="image_preview">
+                <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="135" height="135" title="Upload image">
+            </div>
+            <h1 class="h3 mb-3 font-weight-normal">Update Profile</h1>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            
+            <br>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            
+            <br>
+            <input id="image" type="file" style="display:none;" />
+            <button class="btn btn-lg btn-primary btn-block" onclick="document.getElementById('image').click();">
+                Choose Image
+            </button>
 
-        <div class="image_preview">
-            <img src="">
-        </div>
-
-        <div class="image_preview">
-            <img src="">
-        </div>
-
-        <div id="image_preview">
-            <img src="">
-        </div>
-
-        <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> -->
-        <script src="./src/js/croppie.min.js"></script>
-        <script src="./src/crop.js"></script>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+        </form>
     </body>
 </html>
 
-<script>    
-    cropImage = (input, preview_id, image_id) => {        
-        var crop = new ImageCrop({
-            input: input,                    //Required
-            crop : true,                     //Optional (Default: true)
-            showPreview: true,               //Optional (Default: false)
-            imagePreview : '.image_preview', //Required if want to show image (This is id/class of div must contain img tag)
-            viewport : {
-                width  : 200,                //Optional (Default: 200)
-                height : 200,                //Optional (Default: 200)
-                type   :'circle'             //Optional (Default: square) (Options: circle, square)
-            },
-            boundary : {
-                width  : 250,                //Optional (Default: 250)
-                height : 250                 //Optional (Default: 250)
-            },
-            validTypes : 'jpg|jpeg|png',     //Optional (Default: jpg, jpeg, png) (Options: jpg|jpeg|png)
-            croppedType  : 'base64',         //Optional (Default: base64) (base64, html, blob, rawcanvas)
-            showZoomer  : true,              //Optional (Default: true)
-            imageResult  : {
-                type    : 'base64',          //Optional base64, html, blob, rawCanvas (base64)
-                size    : 'viewport',        //Optional original, viewport (viewport)
-                format  : 'png',             //Optional 'jpeg'|'png'|'webp' (png)
-                quality : 1,                 //Optional 0, 1 (1)
-                circle  : null,              //Optional true, false (null)
-            },
-        });
+<script>
+    let crop = new ImageCrop({
+        crop : true,                     //Optional (Default: true)
+        showPreview: true,               //Optional (Default: false)
+        imagePreview : '#image_preview', //Required if want to show image (This is id/class of div must contain img tag)
+        modalHeader     : 'Crop Image',
+        modalButtonText : 'Crop',
+        viewport : {
+            width  : 200,                //Optional (Default: 200)
+            height : 200,                //Optional (Default: 200)
+            type   :'square'             //Optional (Default: square) (Options: circle, square)
+        },
+        boundary : {
+            width  : 250,                //Optional (Default: 250)
+            height : 250                 //Optional (Default: 250)
+        },
+        validTypes : 'jpg|jpeg|png',     //Optional (Default: jpg, jpeg, png) (Options: jpg|jpeg|png)
+        croppedType  : 'base64',         //Optional (Default: base64) (base64, html, blob, rawcanvas)
+        showZoomer  : true,              //Optional (Default: true)
+        imageResult  : {
+            type    : 'base64',            //Optional base64, html, blob, rawCanvas (base64)
+            size    : 'viewport',        //Optional original, viewport (viewport)
+            format  : 'png',             //Optional 'jpeg'|'png'|'webp' (png)
+            quality : 1,                 //Optional 0, 1 (1)
+            circle  : null,              //Optional true, false (null)
+        },
+        cropModal : '',                  //Optional (default modal coming with croppie), Give modal with id=cropModal, a div inside modal with id->crop_demo, a button with id->crop_image and a cross or normal button with class->close to close modal
+    });
 
-        crop.initCrop();
-    }
+    //On clicking on crop
+    document.getElementById('image').addEventListener('change', function(){
+        crop.initCrop(this);
+    });
+
+    //On clicking on crop
+    document.getElementById('crop_image').addEventListener('click', function(){
+        console.log(crop.getData());
+    });
 </script>

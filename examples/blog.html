@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="https://getbootstrap.com/favicon.ico">
+
+        <title>Crop Image example for Bootstrap</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
+
+        <!-- Crop CSS -->
+        <link rel="stylesheet" href="../src/css/crop.css">
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+                <div class="col-md-6 px-0">
+                    <h1 class="display-4 font-italic">Crop library</h1>
+                    <p class="lead my-3">An easy to use crop library to implement crop just in two minutes and three lines of code.</p>
+                    <p class="lead mb-0">
+                        <input id="image" type="file" style="display:none;" />
+                        <button class="btn btn-primary my-2" onclick="document.getElementById('image').click();">
+                            Choose Image
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <div class="card flex-md-row mb-4 box-shadow h-md-250 image_preview">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <strong class="d-inline-block mb-2 text-primary">World</strong>
+                            <h3 class="mb-0">
+                                <a class="text-dark" href="#">Featured post</a>
+                            </h3>
+                            <div class="mb-1 text-muted">Nov 12</div>
+                                <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                <a href="#">Continue reading</a>
+                            </div>
+                            <img class="card-img-right flex-auto d-none d-md-block" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16a780f9a61%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16a780f9a61%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.3984375%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250 image_preview">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <strong class="d-inline-block mb-2 text-success">Design</strong>
+                                <h3 class="mb-0">
+                                    <a class="text-dark" href="#">Post title</a>
+                                </h3>
+                                <div class="mb-1 text-muted">Nov 11</div>
+                                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                    <a href="#">Continue reading</a>
+                                </div>
+                                <img class="card-img-right flex-auto d-none d-md-block" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16a780f9a61%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16a780f9a61%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.3984375%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crop JS -->
+        <script src="../src/js/crop.min.js"></script>
+    </body>
+</html>
+
+<script>
+    let crop = new ImageCrop({
+        crop            : true,                     //Optional (Default: true)
+        showPreview     : true,                     //Optional (Default: false)
+        imagePreview    : '.image_preview',         //Required if want to show image (This is id/class of div must contain img tag)
+        validTypes      : 'jpg|jpeg|png',           //Optional (Default: jpg, jpeg, png) (Options: jpg|jpeg|png)
+        croppedType     : 'base64',                 //Optional (Default: base64) (base64, html, blob, rawcanvas)
+        showZoomer      : true,                     //Optional (Default: true)
+        modalButtonText : 'Crop',                   //Optional (Default: Crop) (Can give any other name to the modal head)
+        modalHeader     : 'Crop Image for Example', //Optional (Default: Crop Image) (Can give any other name to the modal crop button)
+        cropModal       : '',                       //Optional (default modal coming with croppie), Give modal with id=cropModal, a div inside modal with id->crop_demo, a button with id->crop_image and a cross or normal button with class->close to close modal
+        imageResult     : {
+            type    : 'base64',                     //Optional base64, html, blob, rawCanvas (base64)
+            size    : 'viewport',                   //Optional original, viewport (viewport)
+            format  : 'png',                        //Optional 'jpeg'|'png'|'webp' (png)
+            quality : 1,                            //Optional 0, 1 (1)
+            circle  : null,                         //Optional true, false (null)
+        },
+        viewport  : {
+            width  : 200,                           //Optional (Default: 200)
+            height : 250,                           //Optional (Default: 200)
+            type   :'square'                        //Optional (Default: square) (Options: circle, square)
+        },
+        boundary : {
+            width  : 250,                           //Optional (Default: 250)
+            height : 300                            //Optional (Default: 250)
+        },
+    });
+
+    //On clicking on crop
+    document.getElementById('image').addEventListener('change', function(){
+        crop.initCrop(this);
+    });
+
+    //On clicking on crop
+    document.getElementById('crop_image').addEventListener('click', function(){
+        console.log(crop.getData());
+    });
+</script>
